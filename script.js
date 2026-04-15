@@ -1,45 +1,84 @@
-const questions = [
-    { num: 1, type: "E", text: "주말에 약속이 없다면?", a: { text: "집에 있는다", value: 0 }, b: { text: "밖에 나가서 사람들을 만난다", value: 1 } },
-    { num: 2, type: "S", text: "멍 때릴 때 나는?", a: { text: "오늘 저녁 뭐 먹지? 같은 현실적인 생각을 한다", value: 1 }, b: { text: "우주에 끝이 있을까? 같은 엉뚱한 상상을 한다", value: 0 } },
-    { num: 3, type: "T", text: "친구가 \"나 우울해서 화분 샀어\" 라고 할 때 나는?", a: { text: "무슨 화분 샀어?", value: 1 }, b: { text: "무슨 일 있어? 왜 우울해?", value: 0 } },
-    { num: 4, type: "J", text: "여행을 갈 때 나는?", a: { text: "시간별로 상세한 계획을 짠다", value: 1 }, b: { text: "발길 닿는 대로 돌아다닌다", value: 0 } },
-    { num: 5, type: "E", text: "새로운 모임에 나갔을 때 나는?", a: { text: "조용히 남들의 이야기를 듣는 편이다", value: 0 }, b: { text: "사람들에게 먼저 다가가서 말을 거는 편이다", value: 1 } },
-    { num: 6, type: "S", text: "요리를 할 때 나는?", a: { text: "레시피에 적힌 정량대로 계량해서 만든다", value: 1 }, b: { text: "내 느낌대로 대충 감으로 요리한다", value: 0 } },
-    { num: 7, type: "T", text: "친구가 고민 상담을 할 때 나는?", a: { text: "현실적인 해결책을 제시해 준다", value: 1 }, b: { text: "묵묵히 공감하며 들어준다", value: 0 } },
-    { num: 8, type: "J", text: "일을 처리할 때 나는?", a: { text: "기한에 맞춰 미리미리 끝낸다", value: 1 }, b: { text: "마감일이 임박해야 능률이 오른다", value: 0 } }
+const allQuestions = [
+    { type: "E", text: "주말에 약속이 없다면?", opts: [{ text: "집에 있는다", value: 0 }, { text: "밖에 나가서 사람들을 만난다", value: 1 }] },
+    { type: "E", text: "새로운 모임에 나갔을 때 나는?", opts: [{ text: "조용히 남들의 이야기를 듣는 편이다", value: 0 }, { text: "사람들에게 먼저 다가가서 말을 거는 편이다", value: 1 }] },
+    { type: "E", text: "스트레스를 받을 때 나는?", opts: [{ text: "혼자만의 시간을 가지며 푼다", value: 0 }, { text: "친구들과 만나서 수다를 떨며 푼다", value: 1 }] },
+    { type: "E", text: "엘리베이터에서 이웃을 만났을 때 나는?", opts: [{ text: "가볍게 목례만 하고 조용히 있는다", value: 0 }, { text: "날씨 이야기 등 가볍게 스몰토크를 시작한다", value: 1 }] },
+
+    { type: "S", text: "멍 때릴 때 나는?", opts: [{ text: "오늘 저녁 뭐 먹지? 같은 현실적인 생각을 한다", value: 1 }, { text: "우주에 끝이 있을까? 같은 엉뚱한 상상을 한다", value: 0 }] },
+    { type: "S", text: "요리를 할 때 나는?", opts: [{ text: "레시피에 적힌 정량대로 계량해서 만든다", value: 1 }, { text: "내 느낌대로 대충 감으로 요리한다", value: 0 }] },
+    { type: "S", text: "길을 찾을 때 나는?", opts: [{ text: "간판이나 눈에 띄는 건물을 기준으로 찾는다", value: 1 }, { text: "방향 감각이나 전체적인 지도의 틀을 보고 찾는다", value: 0 }] },
+    { type: "S", text: "영화를 볼 때 나는?", opts: [{ text: "화려한 액션이나 디테일한 연출에 감탄한다", value: 1 }, { text: "감독이 숨겨놓은 의미나 복선을 추론한다", value: 0 }] },
+
+    { type: "T", text: "친구가 \"나 우울해서 화분 샀어\" 라고 할 때 나는?", opts: [{ text: "무슨 화분 샀어?", value: 1 }, { text: "무슨 일 있어? 왜 우울해?", value: 0 }] },
+    { type: "T", text: "친구가 고민 상담을 할 때 나는?", opts: [{ text: "현실적인 해결책을 제시해 준다", value: 1 }, { text: "묵묵히 공감하며 들어준다", value: 0 }] },
+    { type: "T", text: "친구가 시험에 떨어졌을 때 나는?", opts: [{ text: "무슨 과목 떨어졌어? 다음엔 어떻게 공부할거야?", value: 1 }, { text: "헐 어떡해.. 너무 속상하겠다", value: 0 }] },
+    { type: "T", text: "친구가 \"넌 참 착한 것 같아\"라고 했을 때 나는?", opts: [{ text: "내가? 어떤 점이?", value: 1 }, { text: "진짜? 고마워 너무 감동이야", value: 0 }] },
+
+    { type: "J", text: "여행을 갈 때 나는?", opts: [{ text: "시간별로 상세한 계획을 짠다", value: 1 }, { text: "발길 닿는 대로 돌아다닌다", value: 0 }] },
+    { type: "J", text: "일을 처리할 때 나는?", opts: [{ text: "기한에 맞춰 미리미리 끝낸다", value: 1 }, { text: "마감일이 임박해야 능률이 오른다", value: 0 }] },
+    { type: "J", text: "내 방이나 책상 상태는?", opts: [{ text: "항상 물건이 제자리에 있도록 정리한다", value: 1 }, { text: "어지러워 보여도 나름의 규칙이 있어 매번 다 찾을 수 있다", value: 0 }] },
+    { type: "J", text: "갑자기 주말 약속이 취소되었을 때 나는?", opts: [{ text: "내 계획이 틀어져서 짜증난다", value: 1 }, { text: "오예! 자유시간 생겼다며 뒹굴거린다", value: 0 }] }
 ];
 
+function shuffleArray(array) {
+    let arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+let activeQuestions = [];
 let currentQuestionIndex = 0;
 let scores = { E: 0, S: 0, T: 0, J: 0 };
 
 function startTest() {
+    // 각 지표별로 2개씩 랜덤 추출
+    const eQ = shuffleArray(allQuestions.filter(q => q.type === 'E')).slice(0, 2);
+    const sQ = shuffleArray(allQuestions.filter(q => q.type === 'S')).slice(0, 2);
+    const tQ = shuffleArray(allQuestions.filter(q => q.type === 'T')).slice(0, 2);
+    const jQ = shuffleArray(allQuestions.filter(q => q.type === 'J')).slice(0, 2);
+
+    // 전체 8문제 섞기
+    activeQuestions = shuffleArray([...eQ, ...sQ, ...tQ, ...jQ]);
+
+    // 각 문제의 선택지 섞기
+    activeQuestions = activeQuestions.map(q => ({
+        ...q,
+        opts: shuffleArray(q.opts)
+    }));
+
+    currentQuestionIndex = 0;
+    scores = { E: 0, S: 0, T: 0, J: 0 };
+
     document.getElementById('startPage').style.display = 'none';
     document.getElementById('questionPage').style.display = 'block';
     renderQuestion();
 }
 
 function renderQuestion() {
-    const q = questions[currentQuestionIndex];
-    document.getElementById('questionNumber').innerText = `Q${q.num}`;
+    const q = activeQuestions[currentQuestionIndex];
+    document.getElementById('questionNumber').innerText = `Q${currentQuestionIndex + 1}`;
     document.getElementById('questionText').innerText = q.text;
-    document.getElementById('btnA').innerText = q.a.text;
-    document.getElementById('btnB').innerText = q.b.text;
+    document.getElementById('btnA').innerText = q.opts[0].text;
+    document.getElementById('btnB').innerText = q.opts[1].text;
     
     // 진행바 업데이트
-    const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
+    const progressPercent = ((currentQuestionIndex + 1) / activeQuestions.length) * 100;
     document.getElementById('progress').style.width = `${progressPercent}%`;
 }
 
 function selectOption(choice) {
-    const q = questions[currentQuestionIndex];
-    let selectedValue = choice === 'A' ? q.a.value : q.b.value;
+    const q = activeQuestions[currentQuestionIndex];
+    let selectedValue = choice === 'A' ? q.opts[0].value : q.opts[1].value;
     
     if (selectedValue === 1) {
         scores[q.type]++;
     }
     
     currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
+    if (currentQuestionIndex < activeQuestions.length) {
         renderQuestion();
     } else {
         showResult();
@@ -65,6 +104,13 @@ const mbtiData = {
     ENTJ: { nick: "대담한 통솔자", desc: "단호한 결단력과 강력한 카리스마로 목표를 향해 거침없이 전진해요.", sit: "[상황] 이거 안 될 것 같은데...", res: "[대답] 되게 해." }
 };
 
+const mbtiIndices = {
+    ISTJ: {row: 0, col: 0}, ISFJ: {row: 0, col: 1}, INFJ: {row: 0, col: 2}, INTJ: {row: 0, col: 3},
+    ISTP: {row: 1, col: 0}, ISFP: {row: 1, col: 1}, INFP: {row: 1, col: 2}, INTP: {row: 1, col: 3},
+    ESTP: {row: 2, col: 0}, ESFP: {row: 2, col: 1}, ENFP: {row: 2, col: 2}, ENTP: {row: 2, col: 3},
+    ESTJ: {row: 3, col: 0}, ESFJ: {row: 3, col: 1}, ENFJ: {row: 3, col: 2}, ENTJ: {row: 3, col: 3}
+};
+
 function showResult() {
     let mbti = "";
     // 점수가 1점 이상이면 해당 지표 선택 (2문제 중 1문제 이상)
@@ -74,10 +120,17 @@ function showResult() {
     mbti += scores.J >= 1 ? "J" : "P";
 
     const resultData = mbtiData[mbti];
+    const gridPos = mbtiIndices[mbti];
 
     document.getElementById('questionPage').style.display = 'none';
     document.getElementById('resultPage').style.display = 'block';
+    
     document.getElementById('mbtiResult').innerText = mbti;
+    
+    const bgX = -(gridPos.col * 150) + "px";
+    const bgY = -(gridPos.row * 150) + "px";
+    document.getElementById('mbtiImage').style.backgroundPosition = `${bgX} ${bgY}`;
+
     document.getElementById('mbtiNickname').innerText = `"${resultData.nick}"`;
     document.getElementById('mbtiDesc').innerText = resultData.desc;
     document.getElementById('humorSituation').innerText = resultData.sit;

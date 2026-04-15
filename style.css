@@ -172,6 +172,20 @@ p {
     animation: scaleUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
+.mbti-image {
+    width: 150px;
+    height: 150px;
+    margin: 1rem auto;
+    display: block;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    background-image: url('images/mbti_grid.png');
+    background-size: 600px 600px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+    border: 5px solid white;
+}
+
 .mbti-nickname {
     font-size: 1.4rem;
     font-weight: 600;
