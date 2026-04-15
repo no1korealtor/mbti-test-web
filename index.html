@@ -27,9 +27,15 @@
     </div>
     
     <div class="container result-container" id="resultPage" style="display: none;">
-        <h2>당신의 MBTI 유형은</h2>
+        <h2>당신의 유형은...</h2>
         <div class="mbti-result" id="mbtiResult">ESTJ</div>
-        <button class="start-btn" onclick="location.reload()">다시 테스트하기</button>
+        <div class="mbti-nickname" id="mbtiNickname">"엄격한 관리자"</div>
+        <p class="mbti-desc" id="mbtiDesc">철저한 계획과 강력한 추진력으로 주변을 이끌어가는 타고난 리더예요.</p>
+        <div class="mbti-humor">
+            <span class="humor-situation" id="humorSituation">[상황] "우리 내일 뭐할까?"</span>
+            <span class="humor-response" id="humorResponse">[대답] "엑셀 켰어. 말해."</span>
+        </div>
+        <button class="start-btn" onclick="retryTest()">테스트 다시하기</button>
     </div>
 
     <script src="script.js"></script>
